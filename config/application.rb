@@ -42,5 +42,11 @@ module Beatfinder
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    require 'uri'
+    require 'open-uri'
+    require 'net/http'
+    require 'mp3info'		# http://ruby-mp3info.rubyforge.org/
+    require 'curb'			# http://curb.rubyforge.org/
   end
 end

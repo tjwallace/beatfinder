@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  visible: false
+  scanable: false
+  url: MyString
+  resource_url: MyString
+
+two:
+  name: MyString
+  visible: false
+  scanable: false
+  url: MyString
+  resource_url: MyString

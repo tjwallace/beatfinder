@@ -1,0 +1,42 @@
+<p class="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @song.title %>
+</p>
+
+<p>
+  <b>Artist:</b>
+  <%= @song.artist %>
+</p>
+
+<p>
+  <b>Site:</b>
+  <%= @song.site %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @song.url %>
+</p>
+
+<p>
+  <b>File:</b>
+  <%= @song.file %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= @song.active %>
+</p>
+
+<p>
+  <b>Tags:</b>
+  <% @song.tags.each do |tag| %>
+  <%= tag %>
+  <% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_song_path(@song) %> |
+<%= link_to 'Back', songs_path %>
