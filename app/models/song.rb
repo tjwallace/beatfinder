@@ -1,16 +1,11 @@
 class Song < ActiveRecord::Base
   RECENT_DEFAULT = 20
 
-  attr_accessible :title, :artist, :site_id, :url, :file, :active
-
-  acts_as_taggable
-
 	belongs_to :site
 
 	scope :recent, lambda { |limit| limit(limit || RECENT_DEFAULT).order("created_at DESC") }
 	scope :active, where(:active => true)
 
-  validates_presence_of :title, :artist
 	validates_uniqueness_of :url, :file
 
   before_save :update_tags

@@ -1,7 +1,15 @@
 Beatfinder::Application.routes.draw do |map|
-  resources :songs
+  resources :songs do
+    collection do
+      get :recent
+    end
+  end
 
-  resources :sites
+  resources :sites do
+    resources :songs
+  end
+  
+  root :to => "songs#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
