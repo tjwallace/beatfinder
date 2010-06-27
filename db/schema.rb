@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(:version => 20100425041508) do
     t.string   "artist"
     t.integer  "site_id"
     t.string   "url"
-    t.string   "file"
+    t.string   "file_name"
     t.boolean  "active"
     t.datetime "created_at"
     t.datetime "updated_at"

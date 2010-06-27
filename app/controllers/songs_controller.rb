@@ -9,7 +9,7 @@ class SongsController < ApplicationController
   end
   
   def recent
-    @songs = Song.recent
+    @songs = Song.active.recent
     render :index
   end
 

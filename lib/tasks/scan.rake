@@ -1,24 +1,28 @@
 namespace :scan do
 
-	desc "Scan all sites"
-	task(:sites => :environment) do
+  desc "Scan all sites"
+  task(:sites => :environment) do
+    logger = Rails.logger
+    logger.info "Starting to scan sites"
+    sites = Site.scanable
 
-		Rails.logger.info "Starting to scan sites"
-		sites = Site.find_all_by_scanable(true)
-
-		if sites.empty?
-		  Rails.logger.info "No sites to scan"
-		else
+    if sites.empty?
+      logger.info "No sites to scan"
+    else
       sites.each do |site|
-	      begin
-		      site.scan
-	      rescue
-		      Rails.logger.error "Could not scan site - #{$!}"
-	      end
+        site.scan.each do |url|
+          puts url
+        end
       end
-		end
-		
-		Rails.logger.info "Finished scanning sites"
-	end
+    end
+    
+    logger.info "Finished scanning sites"
+  end
+
+  desc "Collect all sites"
+  task(:collect => :environment) do
+    Rails.logger.level = Logger::INFO
+    Site.scanable.map(&:collect)
+  end
 
 end

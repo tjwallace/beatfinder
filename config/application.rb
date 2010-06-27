@@ -47,6 +47,5 @@ module Beatfinder
     require 'open-uri'
     require 'net/http'
     require 'mp3info'		# http://ruby-mp3info.rubyforge.org/
-    require 'curb'			# http://curb.rubyforge.org/
   end
 end
