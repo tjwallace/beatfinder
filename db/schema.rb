@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(:version => 20100701184416) do
     t.datetime "updated_at"
   end
 
+  add_index "songs", ["site_id"], :name => "index_songs_on_site_id"
+
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false
     t.string   "encrypted_password",   :limit => 128, :default => "", :null => false

@@ -9,6 +9,8 @@ class CreateSongs < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :songs, :site_id
   end
 
   def self.down
