@@ -17,17 +17,19 @@ class Site < ActiveRecord::Base
     "data/#{id}"
   end
 
-  def scan
-    raise "Cannot scan this site" unless scanable
+  def song_urls
     URI.parse(resource_url).read.scan(MP3_REGEX).map(&:join).uniq
   end
 
   def collect
     FileUtils.mkdir_p data_dir
 
-    scan.each do |url|
-      song = songs.build(:url => url, :active => false)
-      song.download
+    song_urls.each do |url|
+      begin
+        songs.create(:url => url, :active => false)
+      rescue Exception => e
+        logger.info "Site ##{id} - #{e}"
+      end
     end
   end
 end

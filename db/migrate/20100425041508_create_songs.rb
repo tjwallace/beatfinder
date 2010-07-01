@@ -5,7 +5,6 @@ class CreateSongs < ActiveRecord::Migration
       t.string :artist
       t.references :site
       t.string :url
-      t.string :file_name
       t.boolean :active
 
       t.timestamps

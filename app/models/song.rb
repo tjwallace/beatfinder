@@ -6,7 +6,7 @@ class Song < ActiveRecord::Base
 
   scope :active, where(:active => true)
 
-  validates_uniqueness_of :url, :file_name
+  validates_uniqueness_of :url
 
   after_save :save_tags
   before_destroy :delete_file
@@ -18,28 +18,21 @@ class Song < ActiveRecord::Base
   def to_s
     "#{artist} - #{title}"
   end
+  
+  def file_name
+    "#{site.data_dir}/#{id}.mp3"
+  end
+  
+  def file_size
+    File.size?(file_name)
+  end
 
   def has_file?
-    !file_name.nil? && !file_size.nil?
+    !file_size.nil?
   end
 
   def delete_file
-    File.delete(file_name) unless file_name.nil?
-  end
-
-  def save_tags
-    if has_file?
-      Mp3Info.open(file_name) do |mp3|
-        mp3.tag.title = title unless title.nil?
-        mp3.tag.artist = artist unless artist.nil?
-      end
-
-      smart_rename
-    end
-  end
-
-  def file_size
-    File.size?(file_name) unless file_name.nil?
+    File.delete(file_name) if has_file?
   end
 
   def remote_size
@@ -57,30 +50,22 @@ class Song < ActiveRecord::Base
   def download
     raise "nil URL" if url.nil?
 
-    # setup download file_name
-    self.file_name = File.join(site.data_dir, clean(url.split('/').last))
-    save!
-
     # check file size
     rsize = remote_size
     return false if rsize < 0 || rsize > MAX_SIZE
 
     # download file
     File.open(file_name, 'wb') do |f|
+      logger.info("Song ##{id} - downloading from #{url}")
       f.write(URI.parse(url).read)
     end
-
-    # update artist and title info
+  end
+  
+  def import_metadata
     Mp3Info.open(file_name) do |mp3|
       self.title = clean(mp3.tag.title || url.split('/').last.gsub(/\.mp3/, ''))
       self.artist = clean(mp3.tag.artist || "Unknown")
-    end
-
-    # rename file
-    smart_rename
-
-    self.active = true;
-    save!
+    end if has_file?
   end
 
   private
@@ -88,15 +73,11 @@ class Song < ActiveRecord::Base
   def clean(input)
     input.gsub(/[^A-Za-z0-9_  \(\)&-\.]/, '').gsub(/  /, ' ').strip
   end
-
-  def clean_for_fn(input)
-    clean(input).gsub(/ /, '_').downcase
-  end
-
-  def smart_rename
-    return if artist.nil? || title.nil?
-    old_file_name = file_name
-    self.file_name = File.join(site.data_dir, clean_for_fn("#{self.to_s}.mp3"))
-    File.rename(old_file_name, file_name)
-  end
+  
+  def save_tags
+     Mp3Info.open(file_name) do |mp3|
+       mp3.tag.title = title unless title.nil?
+       mp3.tag.artist = artist unless artist.nil?
+     end if has_file?
+   end
 end
