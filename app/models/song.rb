@@ -56,7 +56,7 @@ class Song < ActiveRecord::Base
 
     # download file
     File.open(file_name, 'wb') do |f|
-      logger.info("Song ##{id} - downloading from #{url}")
+      logger.info "Song ##{id} - downloading from #{url}"
       f.write(URI.parse(url).read)
     end
   end
@@ -65,6 +65,7 @@ class Song < ActiveRecord::Base
     Mp3Info.open(file_name) do |mp3|
       self.title = clean(mp3.tag.title || url.split('/').last.gsub(/\.mp3/, ''))
       self.artist = clean(mp3.tag.artist || "Unknown")
+      self.album = clean(mp3.tag.album || "Unknown")
     end if has_file?
   end
 
@@ -76,8 +77,9 @@ class Song < ActiveRecord::Base
   
   def save_tags
      Mp3Info.open(file_name) do |mp3|
-       mp3.tag.title = title unless title.nil?
-       mp3.tag.artist = artist unless artist.nil?
+       ['title', 'artist', 'album'].each do |attr|
+         mp3.tag[attr] = self[attr] if attribute_present? attr
+       end
      end if has_file?
    end
 end

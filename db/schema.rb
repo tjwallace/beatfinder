@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20100701184416) do
   create_table "songs", :force => true do |t|
     t.string   "title"
     t.string   "artist"
+    t.string   "album"
     t.integer  "site_id"
     t.string   "url"
     t.boolean  "active"
