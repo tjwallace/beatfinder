@@ -14,6 +14,8 @@ Beatfinder::Application.routes.draw do |map|
     resources :songs
   end
   
+  resources :playlists
+
   root :to => "songs#index"
 
   # The priority is based upon order of creation:

@@ -13,6 +13,7 @@ gem 'ruby-mp3info'
 gem 'devise'
 
 gem 'haml'
+gem 'rails3-generators'
 
 # Use unicorn as the web server
 # gem 'unicorn'
