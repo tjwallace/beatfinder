@@ -6,6 +6,8 @@ class CreatePlaylists < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :playlists, :user_id
   end
 
   def self.down

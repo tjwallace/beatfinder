@@ -3,13 +3,16 @@ class Song < ActiveRecord::Base
   RECENT_DEFAULT = 30
 
   belongs_to :site
-
-  scope :active, where(:active => true)
+  
+  has_many :playlist_items
+  has_many :playlists, :through => :playlist_items
 
   validates_uniqueness_of :url
 
   after_save :save_tags
   before_destroy :delete_file
+  
+  scope :active, where(:active => true)
 
   def self.recent(limit = RECENT_DEFAULT)
     limit(limit).order("created_at DESC")

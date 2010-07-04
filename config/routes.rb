@@ -3,6 +3,10 @@ Beatfinder::Application.routes.draw do |map|
   match 'login', :to => 'devise/sessions#new', :as => "new_user_session"
   match 'logout', :to  => 'devise/sessions#destroy', :as => "destroy_user_session"
   match 'signup', :to => 'devise/registrations#new', :as => "new_user_registration"
+  
+  resources :users do
+    resources :playlists
+  end
 
   resources :songs do
     collection do

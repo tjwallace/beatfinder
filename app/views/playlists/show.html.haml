@@ -3,7 +3,12 @@
   = @playlist.name
 %p
   %b User:
-  = @playlist.user_id
+  = @playlist.user.username
+%p
+  %b Songs:
+  %ol
+    - @playlist.songs.each do |song|
+      %li= link_to song, song
 
 = link_to 'Edit', edit_playlist_path(@playlist)
 \|
