@@ -1,0 +1,15 @@
+%p
+  %b Username:
+  = @user.username
+
+%p
+  %b Email:
+  = @user.email
+
+%p
+  %b Playlists:
+  %ol
+    - @user.playlists.each do |playlist|
+      %li= link_to playlist.name, playlist
+
+= link_to 'Back', users_path

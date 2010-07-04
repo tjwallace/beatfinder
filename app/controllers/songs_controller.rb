@@ -2,12 +2,13 @@ class SongsController < ApplicationController
   # GET /songs
   def index
     if params[:site_id]
-      @songs = Site.find(params[:site_id]).songs.order("created_at DESC")
+      @songs = Site.find(params[:site_id]).songs.active
     else
       @songs = Song.order("created_at DESC").all
     end
   end
   
+  # GET /songs/recent
   def recent
     @songs = Song.active.recent
     render :index

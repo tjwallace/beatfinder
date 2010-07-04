@@ -3,7 +3,7 @@
   = @playlist.name
 %p
   %b User:
-  = @playlist.user.username
+  = link_to @playlist.user.username, @playlist.user
 %p
   %b Songs:
   %ol

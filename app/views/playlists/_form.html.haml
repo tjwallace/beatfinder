@@ -1,5 +1,5 @@
 = semantic_form_for @playlist do |f|
-  = f.inputs :name
+  = f.inputs :name, :user
   = f.inputs do
     = f.input :songs, :as => :check_boxes, :collection => Song.active.inject({}){|songs,song| songs.merge(song.to_s => song.id)}
   = f.buttons
