@@ -14,7 +14,7 @@ class Site < ActiveRecord::Base
   end
 
   def data_dir
-    "data/#{id}"
+    Rails.root.join "data/#{id}"
   end
 
   def song_urls
@@ -27,8 +27,8 @@ class Site < ActiveRecord::Base
     song_urls.each do |url|
       begin
         songs.create(:url => url, :active => false)
-      rescue Exception => e
-        logger.info "Site ##{id} - #{e}"
+      rescue Exception => ex
+        logger.info "Site ##{id} - #{ex}"
       end
     end
   end

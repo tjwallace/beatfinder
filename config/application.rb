@@ -45,5 +45,7 @@ module Beatfinder
     require 'open-uri'
     require 'net/http'
     require 'mp3info'		# http://ruby-mp3info.rubyforge.org/
+
+    Mime::Type.register "audio/mpeg", :mp3
   end
 end

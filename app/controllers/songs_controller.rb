@@ -17,6 +17,10 @@ class SongsController < ApplicationController
   # GET /songs/1
   def show
     @song = Song.find(params[:id])
+    respond_to do |wants|
+      wants.html
+      wants.mp3 { send_file @song.filename, :filename => @song.download_filename }
+    end
   end
 
   # GET /songs/new

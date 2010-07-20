@@ -21,13 +21,21 @@ class Song < ActiveRecord::Base
   def to_s
     "#{artist} - #{title}"
   end
+
+  def to_param
+    "#{id}-#{slug_text(artist)}-#{slug_text(title)}"
+  end
   
-  def file_name
-    "#{site.data_dir}/#{id}.mp3"
+  def download_filename
+    "#{self}.mp3"
+  end
+
+  def filename
+    site.data_dir.join "#{id}.mp3"
   end
   
   def file_size
-    File.size?(file_name)
+    File.size?(filename)
   end
 
   def has_file?
@@ -35,7 +43,7 @@ class Song < ActiveRecord::Base
   end
 
   def delete_file
-    File.delete(file_name) if has_file?
+    File.delete(filename) if has_file?
   end
 
   def remote_size
@@ -50,39 +58,52 @@ class Song < ActiveRecord::Base
     size
   end
 
-  def download
+  def download(force = false)
     raise "nil URL" if url.nil?
+    return if has_file? && !force
 
     # check file size
     rsize = remote_size
     return false if rsize < 0 || rsize > MAX_SIZE
 
     # download file
-    File.open(file_name, 'wb') do |f|
+    File.open(filename, 'wb') do |f|
       logger.info "Song ##{id} - downloading from #{url}"
       f.write(URI.parse(url).read)
     end
   end
   
   def import_metadata
-    Mp3Info.open(file_name) do |mp3|
-      self.title = clean(mp3.tag.title || url.split('/').last.gsub(/\.mp3/, ''))
-      self.artist = clean(mp3.tag.artist || "Unknown")
-      self.album = clean(mp3.tag.album || "Unknown")
+    Mp3Info.open(filename) do |mp3|
+      self.title = clean_text(mp3.tag.title || url.split('/').last.gsub(/\.mp3/, ''))
+      self.artist = clean_text(mp3.tag.artist || "Unknown")
+      self.album = clean_text(mp3.tag.album || "Unknown")
     end if has_file?
   end
 
   private
   
-  def clean(input)
+  def clean_text(input)
     input.gsub(/[^A-Za-z0-9_  \(\)&-\.]/, '').gsub(/  /, ' ').strip
   end
-  
+
+  def slug_text(input)
+    ret = input.strip
+    ret.gsub! /['`.]/, ''
+    ret.gsub! /\s*@\s*/, ' at '
+    ret.gsub! /\s*&\s*/, ' and '
+    ret.gsub! /\s*[^A-Za-z0-9\.\-]\s*/, '_'
+    ret.gsub! /_+/, '_'
+    ret.gsub! /\A[_\.]+|[_\.]+\z/, ''
+    ret
+  end
+
   def save_tags
-     Mp3Info.open(file_name) do |mp3|
-       ['title', 'artist', 'album'].each do |attr|
-         mp3.tag[attr] = self[attr] if attribute_present? attr
-       end
-     end if has_file?
-   end
+    Mp3Info.open(filename) do |mp3|
+      %w{title artist album}.each do |attr|
+        mp3.tag[attr] = self[attr] if attribute_present? attr
+      end
+    end if has_file?
+  end
+
 end
