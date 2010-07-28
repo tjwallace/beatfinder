@@ -60,11 +60,11 @@ class Song < ActiveRecord::Base
 
   def download(force = false)
     raise "nil URL" if url.nil?
-    return if has_file? && !force
+    return false if has_file? && !force
 
     # check file size
     rsize = remote_size
-    return false if rsize < 0 || rsize > MAX_SIZE
+    return false unless (0..MAX_SIZE).include? rsize
 
     # download file
     File.open(filename, 'wb') do |f|

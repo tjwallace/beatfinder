@@ -3,13 +3,14 @@
   = @playlist.name
 %p
   %b User:
-  = link_to @playlist.user.username, @playlist.user
+  - if @playlist.anonymous?
+    Anonymous
+  - else
+    = link_to @playlist.user.username, @playlist.user
 %p
   %b Songs:
   %ol
     - @playlist.songs.each do |song|
       %li= link_to song, song
 
-= link_to 'Edit', edit_playlist_path(@playlist)
-\|
 = link_to 'Back', playlists_path

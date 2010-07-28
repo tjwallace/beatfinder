@@ -10,7 +10,8 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/1
   def show
-    @playlist = Playlist.find(params[:id])
+    @playlist = params[:id] == 'current' ? current_playlist : Playlist.find(params[:id])
+
     respond_with @playlist
   end
 
@@ -46,4 +47,5 @@ class PlaylistsController < ApplicationController
     flash[:notice] = 'Playlist was successfully destroyed.' if @playlist.destroy
     respond_with @playlist
   end
+
 end

@@ -8,12 +8,12 @@ gem 'rails', '3.0.0.beta4'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'formtastic', :git => 'git://github.com/justinfrench/formtastic.git', :branch => 'rails3'
 gem 'ruby-mp3info'
+gem 'haml'
+gem 'rails3-generators'
+gem 'acts_as_list'
 
 # gem install devise --version=1.1.rc2
 gem 'devise'
-
-gem 'haml'
-gem 'rails3-generators'
 
 # Use unicorn as the web server
 # gem 'unicorn'

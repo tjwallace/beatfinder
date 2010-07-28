@@ -18,7 +18,9 @@ Beatfinder::Application.routes.draw do |map|
     resources :songs
   end
   
-  resources :playlists
+  resources :playlists do
+    resources :items, :controller => "playlist_items"
+  end
 
   root :to => "songs#index"
 
