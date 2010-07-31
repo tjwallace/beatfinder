@@ -1,4 +1,6 @@
 class PlaylistItemsController < ApplicationController
+  respond_to :html, :js
+
   before_filter :find_playlist
   
   def index
@@ -14,12 +16,14 @@ class PlaylistItemsController < ApplicationController
   end
   
   def create
-    
+   @playlist_item = @playlist.items.build(:song_id => params[:song_id])
+   flash[:notice] = "Song added to playlist" if @playlist_item.save
+   respond_with @playlist_item
   end
   
   private
   
   def find_playlist
-    @playlist = params[:id] == 'current' ? current_playlist : Playlist.find(params[:id])
+    @playlist = params[:playlist_id] == Playlist::CURRENT ? @current_playlist : Playlist.find(params[:playlist_id])
   end
 end

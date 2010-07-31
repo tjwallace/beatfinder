@@ -3,8 +3,15 @@ class ApplicationController < ActionController::Base
   layout 'application'
   helper :layout
 
-  def current_playlist
-    session[:playlist] ||= Playlist.new :name => 'New playlist'
+  before_filter :find_current_playlist
+
+  def find_current_playlist
+    if session[:playlist_id].nil?
+      @current_playlist = Playlist.create(:name => 'New playlist')
+      session[:playlist_id] = @current_playlist.id
+    else
+      @current_playlist = Playlist.find(session[:playlist_id])
+    end
   end
 
 end

@@ -1,0 +1,6 @@
+%h1 Current playlist
+
+- if playlist.songs.empty?
+  #items.empty No songs yet.  Try adding one!
+- else
+  #items= render :partial => "playlist_items/item", :collection => playlist.items
