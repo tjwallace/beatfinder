@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0.beta4'
+gem 'rails', '3.0.0.rc'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,7 +12,6 @@ gem 'haml'
 gem 'rails3-generators'
 gem 'acts_as_list'
 
-# gem install devise --version=1.1.rc2
 gem 'devise'
 
 # Use unicorn as the web server

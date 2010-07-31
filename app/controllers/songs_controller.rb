@@ -4,7 +4,7 @@ class SongsController < ApplicationController
     if params[:site_id]
       @songs = Site.find(params[:site_id]).songs.active
     else
-      @songs = Song.order("created_at DESC").all
+      @songs = Song.active
     end
   end
   

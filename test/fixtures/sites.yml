@@ -1,15 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  name: MyString
-  visible: false
-  scanable: false
-  url: MyString
-  resource_url: MyString
+redthreat:
+  name: Red Threat 
+  visible: true
+  scanable: true
+  url: "http://redthreat.wordpress.com/"
+  resource_url: "http://redthreat.wordpress.com/"
 
-two:
-  name: MyString
-  visible: false
-  scanable: false
-  url: MyString
-  resource_url: MyString
+bigstereo:
+  name: BIGSTEREO
+  visible: true
+  scanable: true
+  url: "http://this.bigstereo.net/"
+  resource_url: "http://this.bigstereo.net/"

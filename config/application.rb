@@ -41,11 +41,11 @@ module Beatfinder
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+    config.action_view.javascript_expansions[:defaults] = ['jquery', 'rails']
+
     require 'uri'
     require 'open-uri'
     require 'net/http'
     require 'mp3info'		# http://ruby-mp3info.rubyforge.org/
-
-    Mime::Type.register "audio/mpeg", :mp3
   end
 end
