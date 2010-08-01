@@ -41,7 +41,11 @@ module Beatfinder
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    config.action_view.javascript_expansions[:defaults] = ['jquery', 'rails']
+    config.action_view.javascript_expansions[:defaults] = [
+      'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
+      'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js',
+      'rails'
+    ]
 
     require 'uri'
     require 'open-uri'

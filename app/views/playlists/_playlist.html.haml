@@ -4,3 +4,18 @@
   #items.empty No songs yet.  Try adding one!
 - else
   #items= render :partial => "playlist_items/item", :collection => playlist.items
+  :javascript
+    $('#items').sortable({
+      stop: function (event, ui) {
+        console.log("Moved " + ui.item.attr('id') + " to " + ui.item.index());
+        var id = ui.item.attr('id').split('_')[2];
+        $.ajax({
+          url: "playlists/#{playlist.id}/items/" + id,
+          type: "PUT",
+          data: {
+            position: ui.item.index() + 1 
+          },
+          dataType: 'script'
+        });
+      }
+    });
