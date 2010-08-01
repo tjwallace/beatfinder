@@ -36,6 +36,10 @@ class PlaylistItemsController < ApplicationController
   private
   
   def find_playlist
-    @playlist = params[:playlist_id] == Playlist::CURRENT ? @current_playlist : Playlist.find(params[:playlist_id])
+    if user_signed_in?
+      @playlist = params[:playlist_id] == Playlist::CURRENT ? @current_playlist : Playlist.find(params[:playlist_id])
+    else
+      @playlist = @current_playlist
+    end
   end
 end

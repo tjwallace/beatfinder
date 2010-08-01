@@ -1,0 +1,21 @@
+%p
+  %b Title:
+  = @song.title
+
+%p
+  %b Artist:
+  = @song.artist
+
+%p
+  %b Site:
+  = link_to @song.site.name, @song.site
+
+%p
+  %b URL:
+  = link_to @song.url, @song.url
+
+= add_to_playlist "Add to playlist", @song, @current_playlist
+|
+= link_to 'Edit', edit_song_path(@song)
+|
+= link_to 'Back', songs_path
