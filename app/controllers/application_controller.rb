@@ -6,12 +6,20 @@ class ApplicationController < ActionController::Base
   before_filter :find_current_playlist
 
   def find_current_playlist
-    if session[:playlist_id].nil?
-      @current_playlist = Playlist.create(:name => 'New playlist')
-      session[:playlist_id] = @current_playlist.id
-    else
-      @current_playlist = Playlist.find(session[:playlist_id])
-    end
+    current_playlist
+  end
+
+  def current_playlist
+    @current_playlist ||= Playlist.find(current_playlist_id)
+  end
+
+  def current_playlist=(playlist)
+    @current_playlist = playlist
+    session[:playlist_id] = playlist.id
+  end
+
+  def current_playlist_id
+    session[:playlist_id] ||= Playlist.create(:name => "New playlist").id
   end
 
 end

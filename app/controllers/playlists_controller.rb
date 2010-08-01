@@ -1,6 +1,6 @@
 class PlaylistsController < ApplicationController
 
-  respond_to :html, :json
+  respond_to :html, :json, :js
 
   # GET /playlists
   def index
@@ -37,7 +37,7 @@ class PlaylistsController < ApplicationController
   # PUT /playlists/1
   def update
     @playlist = Playlist.find(params[:id])
-    flash[:notice] = 'Playlist was successfully updated.' if @playlist.update_attributes(params[:playlist])
+    @playlist.update_attributes(params[:playlist])
     respond_with @playlist
   end
 

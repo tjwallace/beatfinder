@@ -1,21 +1,31 @@
 %h1 Current playlist
-
-- if playlist.songs.empty?
-  #items.empty No songs yet.  Try adding one!
-- else
-  #items= render :partial => "playlist_items/item", :collection => playlist.items
+%h2{:id => "playlist_name"}= playlist.name
+- unless playlist.anonymous?
   :javascript
-    $('#items').sortable({
-      stop: function (event, ui) {
-        console.log("Moved " + ui.item.attr('id') + " to " + ui.item.index());
-        var id = ui.item.attr('id').split('_')[2];
-        $.ajax({
-          url: "playlists/#{playlist.id}/items/" + id,
-          type: "PUT",
-          data: {
-            position: ui.item.index() + 1 
-          },
-          dataType: 'script'
-        });
-      }
+    $('#playlist_name').editInPlace({
+      url: "#{playlist_path(playlist)}",
+      show_buttons: true,
+      update_value: 'playlist[name]',
+      saving_text: 'Saving...'
     });
+
+#empty No songs... try adding one!
+- unless playlist.songs.empty?
+  :javascript
+    $('#empty').hide();
+
+#items= render :partial => "playlist_items/item", :collection => playlist.items
+:javascript
+  $('#items').sortable({
+    stop: function (event, ui) {
+      var id = ui.item.attr('id').split('_')[2];
+      $.ajax({
+        url: "playlists/current/items/" + id,
+        type: "PUT",
+        data: {
+          position: ui.item.index() + 1 
+        },
+        dataType: 'script'
+      });
+    }
+  });

@@ -1,10 +1,8 @@
-var items = $('#items');
-
 <% if @playlist_item.position == 1 %>
-items.empty();
+$('#empty').hide();
 <% end %>
 
 var item = $("<%= escape_javascript( render :partial => "item", :object => @playlist_item ) %>");
 item.hide();
-items.append(item);
+$('#items').append(item);
 item.effect('highlight', {}, 500);

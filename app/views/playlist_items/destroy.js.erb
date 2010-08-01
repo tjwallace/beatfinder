@@ -1,2 +1,6 @@
 var item = $('<%= @playlist_item.css_selector %>');
 item.hide('highlight', {}, 500, function() { item.remove() });
+
+<%- if @playlist.items.count == 0 %>
+  $('#empty').show();
+<%- end %>
