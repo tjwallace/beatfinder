@@ -1,9 +1,12 @@
 var items = $('#items');
+
 <% if @playlist_item.position == 1 %>
   items.empty();
 <% end %>
 
 var item = $("<%= escape_javascript( render :partial => "item", :object => @playlist_item ) %>");
 item.hide();
+
 items.append(item);
+
 item.fadeIn();

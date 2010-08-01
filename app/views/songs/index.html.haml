@@ -12,4 +12,4 @@
       %td= song.artist
       %td= link_to song.title, song
       %td= link_to song.site.name, song.site
-      %td= link_to "Add to playlist", playlist_items_path(:playlist_id => Playlist::CURRENT, :song_id => song.id), :method => :post, :remote => true
+      %td= link_to "Add to playlist", playlist_items_path(:playlist_id => @current_playlist.id, :song_id => song.id), :method => :post, :remote => true

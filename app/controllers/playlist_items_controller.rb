@@ -20,6 +20,12 @@ class PlaylistItemsController < ApplicationController
    flash[:notice] = "Song added to playlist" if @playlist_item.save
    respond_with @playlist_item
   end
+
+  def destroy
+    @playlist_item = PlaylistItem.find(params[:id])
+    flash[:notice] = "Song removed from playlist" if @playlist_item.destroy
+    respond_with @playlist_item
+  end
   
   private
   

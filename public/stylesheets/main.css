@@ -15,3 +15,7 @@
   height: 100%;
   padding: 0 10px 
 }
+
+div.playlist_item p {
+  margin: 5px 0;
+}

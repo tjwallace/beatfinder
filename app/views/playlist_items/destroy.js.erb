@@ -1,0 +1,9 @@
+<% if @playlist_item.last? %>
+  var item = $('#playlist_item_<%= @playlist_item.id %>');
+  item.fadeOut();
+  item.remove();
+<% else %>
+  var items = $('#items');
+  items.empty();
+  items.append("<%= escape_javascript( render :partial => "playlists/playlist", :object => @current_playlist ) %>");
+<% end %>

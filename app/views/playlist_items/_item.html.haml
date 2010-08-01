@@ -1,3 +1,5 @@
 %div[item]
-  %p ##{item.position} #{link_to item.song.title, item.song}
-  %p #{item.song.artist}
+  %p ##{item.position} #{link_to item.song.title, item.song} by #{item.song.artist}
+  %p
+    #{link_to 'download', song_path(item.song, :format => 'mp3')} - 
+    #{link_to 'remove', playlist_item_path(item.playlist, item), :method => :delete, :remote => true} 
