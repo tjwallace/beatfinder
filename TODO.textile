@@ -1,0 +1,54 @@
+h1. TODO list
+
+h2. Play music
+
+* Add a flash / HTML5 player
+* Controls:
+** Play/pause
+** Previous/next
+** Skip to song
+* Special cases:
+** Song added when nothing playing
+** Remove playing song
+
+h2. Playlist features
+
+* New / clearing
+* Loading
+
+h2. Authentication
+
+* Log in/out widget
+* User dashboard
+* User profile
+
+h2. Security
+
+* Check permissions for:
+** Playlist management
+
+h2. Less persistant playlists
+
+Currently too much data is being sent back and forth during playlist management.
+
+* Persist playlists only when:
+** User clicks save
+** User leaves page
+** 10 seconds pass
+* Session stores:
+** playlist_id (if saved)
+** array of song id's in playlist
+
+h2. Voting
+
+* Song
+* Playlist
+
+h2. Analytics
+
+* Song downloads/plays
+* Playlist loads
+
+h2. Recommendations
+
+* acts_as_recommendable?
