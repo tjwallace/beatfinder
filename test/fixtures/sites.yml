@@ -1,13 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-redthreat:
+one:
+  id: 1
   name: Red Threat 
   visible: true
   scanable: true
   url: "http://redthreat.wordpress.com/"
   resource_url: "http://redthreat.wordpress.com/"
 
-bigstereo:
+two:
+  id: 2
   name: BIGSTEREO
   visible: true
   scanable: true
