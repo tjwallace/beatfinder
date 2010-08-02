@@ -16,6 +16,10 @@ h2. Playlist features
 * New / clearing
 * Loading
 
+h2. Stateful songs
+
+* States for pending, active, error, hidden
+
 h2. Authentication
 
 * Log in/out widget
