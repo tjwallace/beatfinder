@@ -18,6 +18,10 @@ class Song < ActiveRecord::Base
     limit(limit).order("created_at DESC")
   end
 
+  def css_selector
+    "#song_#{id}"
+  end
+
   def to_s
     "#{artist} - #{title}"
   end

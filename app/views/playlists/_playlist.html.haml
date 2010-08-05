@@ -1,4 +1,5 @@
 %h1 Current playlist
+
 %h2{:id => "playlist_name"}= playlist.name
 - unless playlist.anonymous?
   :javascript
@@ -13,6 +14,24 @@
 - unless playlist.songs.empty?
   :javascript
     $('#empty').hide();
+
+#player 
+  You need flash to listen to music.
+
+#position_slider
+
+#controls
+  = link_to_function 'play', 'playlist.play()'
+  |
+  = link_to_function 'pause', 'playlist.pause()'
+  |
+  = link_to_function 'next', 'playlist.next()'
+
+:javascript
+  var so = new SWFObject('flash/player.swf','ply','0','0','9');
+  so.addParam('allowfullscreen','false');
+  so.addParam('allowscriptaccess','always');
+  so.write('player');
 
 #items= render :partial => "playlist_items/item", :collection => playlist.items
 :javascript
