@@ -1,16 +1,24 @@
 class Song < ActiveRecord::Base
+  
+  # STATES
+  # found => { downloaded, error, hidden }
+  # downloaded => { active, hidden }
+  # active => { hidden }
+  # error => { found }
+  # hidden => { found, downloaded }
+
   MAX_SIZE = 20971520
   RECENT_DEFAULT = 30
 
   belongs_to :site
   
-  has_many :playlist_items
+  has_many :playlist_items, :dependent => :destroy
   has_many :playlists, :through => :playlist_items
 
   validates_uniqueness_of :url
 
   after_save :save_tags
-  before_destroy :delete_file
+  before_destroy :delete_file!
   
   scope :active, where(:active => true)
 
@@ -39,42 +47,36 @@ class Song < ActiveRecord::Base
   end
   
   def file_size
-    File.size?(filename)
+    File.size? filename
   end
 
   def has_file?
     !file_size.nil?
   end
 
-  def delete_file
+  def delete_file!
     File.delete(filename) if has_file?
+  end
+
+  def uri
+    @uri ||= URI.parse(url)
   end
 
   def remote_size
     return -1 if url.nil?
 
-    size = -1
-    uri = URI.parse(url)
     Net::HTTP.start(uri.host, uri.port) do |http|
-      response = http.head(uri.path)
-      size = response.content_length unless response.nil?
+      http.head(uri.path).content_length
     end
-    size
   end
 
   def download(force = false)
     raise "nil URL" if url.nil?
-    return false if has_file? && !force
+    raise "file exists" if has_file? && !force
+    raise "file too big" unless (0..MAX_SIZE).include? remote_size
 
-    # check file size
-    rsize = remote_size
-    return false unless (0..MAX_SIZE).include? rsize
-
-    # download file
-    File.open(filename, 'wb') do |f|
-      logger.info "Song ##{id} - downloading from #{url}"
-      f.write(URI.parse(url).read)
-    end
+    data = uri.read
+    File.open(filename, 'wb'){ |f| f.write data }
   end
   
   def import_metadata

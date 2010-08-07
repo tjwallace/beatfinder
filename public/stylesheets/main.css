@@ -37,6 +37,10 @@
   right: 0px;
 }
 
+#load {
+  float: right;
+}
+
 #controls {
   text-align: center;
 }
