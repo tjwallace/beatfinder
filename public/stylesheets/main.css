@@ -16,13 +16,27 @@
   padding: 0 10px;
 }
 
-div.playlist_item {
+#playlist div.playlist_item {
   background: #E0EEEE;
   padding: 0 5px;
   margin: 5px 0;
 }
 
-div.playlist_item p {
+#playlist div.playlist_item p {
   padding: 5px 0;
   margin: 0;
+}
+
+#playlist div.playing {
+  background: #A3EBEB;
+}
+
+#player {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+#controls {
+  text-align: center;
 }

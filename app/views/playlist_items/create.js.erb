@@ -6,3 +6,7 @@ var item = $("<%= escape_javascript( render :partial => "item", :object => @play
 item.hide();
 $('#items').append(item);
 item.effect('highlight', {}, 500);
+
+<% if @playlist_item.position == 1 %>
+playlist.load(<%= @playlist_item.id %>);
+<% end %>

@@ -1,7 +1,9 @@
 var Playlist = Class.extend({
 
-  currentItem: -1,
+  duration: -1,
+
   positionSlider: null,
+  sliderInMotion: false,
 
   init: function (player) {
     this.player = player;
@@ -14,8 +16,17 @@ var Playlist = Class.extend({
     this.player.addModelListener('LOADED', 'loadedListener'); 
 
     // sliders
+    var self = this;
     this.positionSlider = $("#position_slider");
-    this.positionSlider.slider();
+    this.positionSlider.slider({
+      start: function (event, ui) {
+        self.sliderInMotion = true;
+      },
+      stop: function (event, ui) {
+        self.seek(ui.value);
+        self.sliderInMotion = false;
+      }
+    });
 
     this.volume(80);
     console.log('playlist has started');
@@ -33,19 +44,20 @@ var Playlist = Class.extend({
     }
   },
 
-  load: function (id) {
-    this.currentItem = id;
-    var item = $(this.cssForItem(id));
-    var songId = item.data()['song']['id'];
-    $('#items div').removeClass('playing');
+  currentItem: function () {
+    return $('div.playing');
+  },
+
+  load: function (itemId) {
+    $('div.playlist_item').removeClass('playing');
+    var item = $(this.cssForItem(itemId));
     item.addClass('playing');
-    var url = '/songs/' + songId + '.mp3'
-    this.sendEvent('load', { type: 'sound', file: url });
-    this.play();
+    this.sendEvent('load', { type: 'sound', file: '/songs/' + item.data()['song']['id'] + '.mp3' });
+    setTimeout('playlist.play()', 500);
   },
 
   seek: function (pos) {
-    this.sendEvent('seek', pos);
+    this.sendEvent('seek', pos * this.duration / 100);
   },
 
   volume: function (percent) {
@@ -64,8 +76,19 @@ var Playlist = Class.extend({
     this.sendEvent('play', false);
   },
 
-  next: function () {
+  playItem: function (item) {
+    if (item.length) {
+      item.effect('highlight');
+      this.load(item.attr('id').split('_')[2]);
+    }
+  },
 
+  next: function () {
+    this.playItem(this.currentItem().next('.playlist_item'));
+  },
+
+  previous: function () {
+    this.playItem(this.currentItem().prev('.playlist_item'));
   },
 
   cssForSong: function (id) {
@@ -79,15 +102,31 @@ var Playlist = Class.extend({
   // listeners
   stateListener: function (oldState, newState) {
     console.log('state: '+oldState+' => '+newState);
+    if (oldState == 'IDLE' && newState == 'COMPLETED') {
+      this.next();
+    }
   },
 
   timeListener: function (dur, pos) {
-    var loc = pos / dur * 100;
-    this.positionSlider.slider("value", loc);
+    this.duration = dur;
+    $('#time').text(this.formatTime(pos) + '/' + this.formatTime(dur));
+    if (!this.sliderInMotion) {
+      this.positionSlider.slider("value", pos / dur * 100);
+    }
   },
 
   loadedListener: function (loaded, total, offset) {
-    console.log('loaded: loaded='+loaded+' total='+total+' offset='+offset);
+    console.log("loaded="+loaded+" total="+total);
+    var percent = 100 * Math.round(loaded / total * 10) / 10
+    if (loaded == 0 && total == 0) percent = 100.0
+    $('#load').text(percent + '%');
+  },
+
+  formatTime: function(time) {
+    var mins = parseInt(time / 60);
+    var secs = parseInt(time % 60);
+    if (secs < 10) secs = "0" + secs;
+    return mins + ":" + secs;
   }
 
 });

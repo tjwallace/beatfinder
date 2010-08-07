@@ -2,11 +2,11 @@ h1. TODO list
 
 h2. Play music
 
-* Add a flash / HTML5 player
+* -Add a flash / HTML5 player-
 * Controls:
-** Play/pause
-** Previous/next
-** Skip to song
+** -Play/pause-
+** -Previous/next-
+** -Skip to song-
 * Special cases:
 ** Song added when nothing playing
 ** Remove playing song
@@ -55,4 +55,4 @@ h2. Analytics
 
 h2. Recommendations
 
-* acts_as_recommendable?
+* acts_as_recommendable

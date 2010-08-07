@@ -1,6 +1,4 @@
-%h1 Current playlist
-
-%h2{:id => "playlist_name"}= playlist.name
+%h1{:id => "playlist_name"}= playlist.name
 - unless playlist.anonymous?
   :javascript
     $('#playlist_name').editInPlace({
@@ -20,12 +18,18 @@
 
 #position_slider
 
+#stats
+  %span#time 0:00
+  %span#load 0.0%
+
 #controls
+  = link_to_function '<<', 'playlist.previous()'
+  |
   = link_to_function 'play', 'playlist.play()'
   |
   = link_to_function 'pause', 'playlist.pause()'
   |
-  = link_to_function 'next', 'playlist.next()'
+  = link_to_function '>>', 'playlist.next()'
 
 :javascript
   var so = new SWFObject('flash/player.swf','ply','0','0','9');
@@ -36,6 +40,7 @@
 #items= render :partial => "playlist_items/item", :collection => playlist.items
 :javascript
   $('#items').sortable({
+    axis: 'y',
     stop: function (event, ui) {
       var id = ui.item.attr('id').split('_')[2];
       $.ajax({
