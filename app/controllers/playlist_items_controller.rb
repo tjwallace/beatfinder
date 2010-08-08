@@ -6,8 +6,7 @@ class PlaylistItemsController < ApplicationController
   before_filter :find_playlist_item, :only => [:update, :destroy]
   
   def create
-   @playlist_item = @playlist.items.build(:song_id => params[:song_id])
-   @playlist_item.save
+   @playlist_item = @playlist.items.create(:song_id => params[:song_id])
    respond_with @playlist_item
   end
 

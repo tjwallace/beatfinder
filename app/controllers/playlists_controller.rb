@@ -2,6 +2,8 @@ class PlaylistsController < ApplicationController
 
   respond_to :html, :json, :js
 
+  before_filter :find_playlist, :only => [:show, :load, :edit, :update, :destroy]
+
   # GET /playlists
   def index
     @playlists = Playlist.all
@@ -10,8 +12,12 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/1
   def show
-    @playlist = params[:id] == 'current' ? current_playlist : Playlist.find(params[:id])
+    respond_with @playlist
+  end
 
+  # GET /playlists/1/load
+  def load
+    current_playlist = @playlist
     respond_with @playlist
   end
 
@@ -23,7 +29,6 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/1/edit
   def edit
-    @playlist = Playlist.find(params[:id])
     respond_wtih @playlist
   end
 
@@ -36,16 +41,20 @@ class PlaylistsController < ApplicationController
 
   # PUT /playlists/1
   def update
-    @playlist = Playlist.find(params[:id])
     @playlist.update_attributes(params[:playlist])
     respond_with @playlist
   end
 
   # DELETE /playlists/1
   def destroy
-    @playlist = Playlist.find(params[:id])
     flash[:notice] = 'Playlist was successfully destroyed.' if @playlist.destroy
     respond_with @playlist
+  end
+
+  private
+
+  def find_playlist
+    @playlist = params[:id] == Playlist::CURRENT ? current_playlist : Playlist.find(params[:id])
   end
 
 end
