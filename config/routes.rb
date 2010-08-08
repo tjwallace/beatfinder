@@ -9,9 +9,7 @@ Beatfinder::Application.routes.draw do |map|
   end
 
   resources :songs do
-    collection do
-      get :recent
-    end
+    get :recent, :on => :collection
   end
 
   resources :sites do
@@ -20,6 +18,7 @@ Beatfinder::Application.routes.draw do |map|
   
   resources :playlists do
     resources :items, :controller => "playlist_items"
+    get :load, :on => :member
   end
 
   root :to => "songs#index"

@@ -1,0 +1,4 @@
+playlist.pause();
+
+$('#empty').hide();
+$('#items').html("<%= escape_javascript( render :partial => "playlist_items/item", :collection => @playlist.items ) %>");

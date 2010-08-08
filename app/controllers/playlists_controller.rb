@@ -17,7 +17,7 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/1/load
   def load
-    current_playlist = @playlist
+    self.current_playlist = @playlist
     respond_with @playlist
   end
 

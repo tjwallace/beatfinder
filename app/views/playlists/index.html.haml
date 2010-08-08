@@ -4,6 +4,7 @@
   %tr
     %th Name
     %th User
+    %th Songs
     %th
     %th
     %th
@@ -12,10 +13,7 @@
     %tr
       %td= playlist.name
       %td= playlist.user_id
+      %td= playlist.items.count
       %td= link_to 'Show', playlist
-      %td= link_to 'Edit', edit_playlist_path(playlist)
+      %td= link_to 'Load', load_playlist_path(playlist), :remote => true
       %td= link_to 'Destroy', playlist, :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= link_to 'New playlist', new_playlist_path

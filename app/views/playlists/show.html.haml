@@ -13,4 +13,6 @@
     - @playlist.songs.each do |song|
       %li= link_to song, song
 
+= link_to 'Load', load_playlist_path(@playlist), :remote => true
+|
 = link_to 'Back', playlists_path
