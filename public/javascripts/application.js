@@ -149,7 +149,3 @@ function timeListener(obj) {
 function loadedListener(obj) {
   playlist.loadedListener(obj.loaded, obj.total, obj.offset);
 }
-
-$(function () {
-  setTimeout('playerReady()', 500);
-});
