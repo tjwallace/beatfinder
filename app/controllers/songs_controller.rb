@@ -2,9 +2,9 @@ class SongsController < ApplicationController
   # GET /songs
   def index
     if params[:site_id]
-      @songs = Site.find(params[:site_id]).songs.active
+      @songs = Site.find(params[:site_id]).songs.active.includes(:site)
     else
-      @songs = Song.active
+      @songs = Song.active.includes(:site)
     end
   end
   
