@@ -31,7 +31,7 @@ h2. Security
 * Check permissions for:
 ** Playlist management
 
-h2. Less persistant playlists
+h2. Less persistent playlists
 
 Currently too much data is being sent back and forth during playlist management.
 
