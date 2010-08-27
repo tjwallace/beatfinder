@@ -23,6 +23,7 @@ h2. Stateful songs
 h2. Authentication
 
 * Log in/out widget
+* Assign curent playlist to user after login
 * User dashboard
 * User profile
 
