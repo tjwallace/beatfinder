@@ -11,9 +11,9 @@ var Playlist = Class.extend({
 
   start: function () {
     // listeners
-    this.player.addModelListener('STATE', 'stateListener');
-    this.player.addModelListener('TIME', 'timeListener'); 
-    this.player.addModelListener('LOADED', 'loadedListener'); 
+    this.player.addModelListener('STATE', 'playlist.stateListener');
+    this.player.addModelListener('TIME', 'playlist.timeListener'); 
+    this.player.addModelListener('LOADED', 'playlist.loadedListener'); 
 
     // sliders
     var self = this;
@@ -100,14 +100,20 @@ var Playlist = Class.extend({
   },
 
   // listeners
-  stateListener: function (oldState, newState) {
+  stateListener: function (obj) {
+    var oldState = obj.oldstate,
+        newState = obj.newState;
+
     console.log('state: '+oldState+' => '+newState);
     if (oldState == 'IDLE' && newState == 'COMPLETED') {
       this.next();
     }
   },
 
-  timeListener: function (dur, pos) {
+  timeListener: function (obj) {
+    var dur = obj.duration,
+        pos = obj.position;
+
     this.duration = dur;
     $('#time').text(this.formatTime(pos) + '/' + this.formatTime(dur));
     if (!this.sliderInMotion) {
@@ -115,7 +121,11 @@ var Playlist = Class.extend({
     }
   },
 
-  loadedListener: function (loaded, total, offset) {
+  loadedListener: function (obj) {
+    var loaded = obj.loaded,
+        total = obj.total,
+        offset = obj.offset;
+
     console.log("loaded="+loaded+" total="+total);
     var percent = 100 * Math.round(loaded / total * 10) / 10
     if (loaded == 0 && total == 0) percent = 100.0
@@ -138,16 +148,6 @@ function playerReady(obj) {
     playlist = new Playlist(document.getElementById('ply'));
     playlist.start();
   }
-}
-
-function stateListener(obj) {
-  playlist.stateListener(obj.oldstate, obj.newstate);
-}
-function timeListener(obj) {
-  playlist.timeListener(obj.duration, obj.position);
-}
-function loadedListener(obj) {
-  playlist.loadedListener(obj.loaded, obj.total, obj.offset);
 }
 
 $(document).ready(function() {
