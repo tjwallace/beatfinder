@@ -12,7 +12,7 @@ gem 'haml'
 gem 'rails3-generators'
 gem 'acts_as_list'
 
-gem 'devise'
+gem 'devise', :git => 'git://github.com/plataformatec/devise.git'
 
 # Use unicorn as the web server
 # gem 'unicorn'

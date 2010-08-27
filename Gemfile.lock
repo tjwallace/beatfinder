@@ -8,6 +8,14 @@ GIT
       activesupport (>= 2.3.0)
       i18n (>= 0.4.0)
 
+GIT
+  remote: git://github.com/plataformatec/devise.git
+  revision: bf122d8
+  specs:
+    devise (1.2.0)
+      bcrypt-ruby (~> 2.1.2)
+      warden (~> 0.10.7)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -43,9 +51,6 @@ GEM
       activesupport (>= 3.0.0.beta)
     bcrypt-ruby (2.1.2)
     builder (2.1.2)
-    devise (1.1.1)
-      bcrypt-ruby (~> 2.1.2)
-      warden (~> 0.10.7)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     haml (3.0.17)
@@ -90,7 +95,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_list
-  devise
+  devise!
   formtastic!
   haml
   rails (= 3.0.0.rc2)
