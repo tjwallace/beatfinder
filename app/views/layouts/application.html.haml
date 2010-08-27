@@ -19,5 +19,7 @@
       
       #content= yield
 
+      = link_to 'show/hide', '#', :id => 'playlist_toggle'
+
       #playlist
-        = render :partial => "playlists/playlist", :object => @current_playlist
+        = render :partial => 'playlists/playlist', :object => @current_playlist

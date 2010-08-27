@@ -1,6 +1,7 @@
 #wrapper {
   margin: 0 auto;
   width: 1080px;
+  overflow: hidden;
 }
 
 #content {
@@ -10,7 +11,7 @@
 
 #playlist {
   margin-left: 720px;
-  width: 360px;
+  width: 350px;
   border-left: 1px solid black;
   height: 100%;
   padding: 0 10px;
@@ -18,7 +19,8 @@
 
 #playlist div.playlist_item {
   background: #E0EEEE;
-  padding: 0 5px;
+  padding: 0;
+  padding-left: 5px;
   margin: 5px 0;
 }
 

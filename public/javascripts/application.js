@@ -149,3 +149,14 @@ function timeListener(obj) {
 function loadedListener(obj) {
   playlist.loadedListener(obj.loaded, obj.total, obj.offset);
 }
+
+$(document).ready(function() {
+  var pml = parseInt($('#playlist').css('marginLeft'),10);
+  $('#playlist_toggle').click(function () {
+    var playlist = $('#playlist');
+    playlist.animate({
+      marginLeft: (pml + (parseInt(playlist.css('marginLeft'),10) == pml ?
+        playlist.outerWidth() : 0))
+    });
+  });
+});
