@@ -17,7 +17,7 @@ class Song < ActiveRecord::Base
 
   validates_uniqueness_of :url
 
-  after_save :save_tags
+  after_save :save_mp3_tags
   before_destroy :delete_file!
   
   scope :active, where(:active => true)
@@ -72,7 +72,7 @@ class Song < ActiveRecord::Base
 
   def download(force = false)
     raise "nil URL" if url.nil?
-    raise "file exists" if has_file? && !force
+    raise "file already exists" if has_file? && !force
     raise "file too big" unless (0..MAX_SIZE).include? remote_size
 
     data = uri.read
@@ -104,7 +104,7 @@ class Song < ActiveRecord::Base
     ret
   end
 
-  def save_tags
+  def save_mp3_tags
     Mp3Info.open(filename) do |mp3|
       %w{title artist album}.each do |attr|
         mp3.tag[attr] = self[attr] if attribute_present? attr
