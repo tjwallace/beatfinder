@@ -7,9 +7,7 @@ var Playlist = Class.extend({
 
   init: function (player) {
     this.player = player;
-  },
 
-  start: function () {
     // listeners
     this.player.addModelListener('STATE', 'playlist.stateListener');
     this.player.addModelListener('TIME', 'playlist.timeListener'); 
@@ -102,9 +100,9 @@ var Playlist = Class.extend({
   // listeners
   stateListener: function (obj) {
     var oldState = obj.oldstate,
-        newState = obj.newState;
+        newState = obj.newstate;
 
-    console.log('state: '+oldState+' => '+newState);
+    console.log('state: ' + oldState + ' => ' + newState);
     if (oldState == 'IDLE' && newState == 'COMPLETED') {
       this.next();
     }
@@ -146,7 +144,6 @@ var playlist = null;
 function playerReady(obj) {
   if (playlist == null) {
     playlist = new Playlist(document.getElementById('ply'));
-    playlist.start();
   }
 }
 
@@ -155,8 +152,7 @@ $(document).ready(function() {
   $('#playlist_toggle').click(function () {
     var playlist = $('#playlist');
     playlist.animate({
-      marginLeft: (pml + (parseInt(playlist.css('marginLeft'),10) == pml ?
-        playlist.outerWidth() : 0))
+      marginLeft: (pml + (parseInt(playlist.css('marginLeft'),10) == pml ? playlist.outerWidth() : 0))
     });
   });
 });
